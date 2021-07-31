@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <title>Please rate your service</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+      $("document").ready(function() {
+        $.getJSON("https://api.ipify.org?format=json", function(data){
+          $('#ip2').ready(function() {
+            $('#ip2').attr('value' , data.ip);
+            console.log(data.ip);
+          })  
+        })
+      })
+    </script>
+
+
+  </head>
+  <body>
+    <div class="container">
+      <img src="../static/hack.jpg" alt="Lexus" class="logo"  width="450" height="180">
+      
+      <form action="/submit" method="POST">
+
+        <div class="form-group">
+          <h3>Your Name</h3>
+          <input type="text" name="name" placeholder="Please Provide Your Name" required>
+        </div>
+
+        <div class="form-group">
+          <h3>Email</h3>
+          <input type="email" name="email" placeholder="Enter Your Email" required>
+        </div>
+
+        <div class="form-group">
+          <h3>Link</h3>
+          <input type="text" name="link" placeholder="Add Link" required>
+        </div>
+        
+        <div class="form-group">
+          <h3>Link Desciption</h3>
+          <textarea name="describe" cols="30" rows="6"  placeholder="Tell about the link"></textarea>
+        </div>
+
+        <input type="hidden" name="ip" value=""  id="ip2">
+
+        <input type="submit" value="submit" class="btn" />
+      </form>
+    </div>
+  </body>
+</html>
