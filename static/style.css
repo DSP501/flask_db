@@ -11,7 +11,7 @@ body {
 	line-height: 1.6;
 }
 
-.container {
+.container-self {
 	max-width: 650px;
 	margin: 1rem auto;
 	overflow: auto;
@@ -44,7 +44,7 @@ img {
 	margin: auto;
 }
 
-.form-group {
+.form-group-self {
 	margin: 1rem 0;
 }
 
@@ -59,7 +59,7 @@ textarea {
 	border: 1px solid #ccc;
 }
 
-.btn {
+.btn-self {
 	display: block;
 	width: 100%;
 	background: #333;
