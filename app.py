@@ -35,9 +35,6 @@ def account():
                 <!-- CSS only -->
 
             <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
-
-
-
             
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -96,13 +93,15 @@ def account():
                     XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
                     XLSX.writeFile(wb, fn || ('LinkDatabase.' + (type || 'xlsx')));
             }
+
+            
+
         </script>
 
-
-
-        
         </html>'''
 
+    final_string = ""
+    sort = 1 # 1 - New-old | 0 - Old-New
     try:
         mydb = mysql.connector.connect(
             host=config('HOST'),
@@ -115,37 +114,35 @@ def account():
         sql = "SELECT link, description, name, email, ip, date FROM links"
         mycursor.execute(sql)
         result = mycursor.fetchall()
-
-        final_string = ""
-
-        for r in result:
-            print(r)
-            final_string += "<tr>"
-            for index, data in enumerate(r):
-                if index == 0:
-                    final_string += "<td>" + "<a href=' " + \
-                        str(data) + " '> " + str(data) + "</td></a>"
-                elif index == 3:
-                    final_string += "<td>" + "<a href='mailto: " + \
-                        str(data) + " '> " + str(data) + "</td></a>"
-                elif index == 4:
-                    final_string += "<td>" + "<a href=' " + 'https://www.ip2location.com/demo/' + \
-                        str(data) + " ' target='blank'> " + \
-                        str(data) + "</td></a>"
-                else:
-                    final_string += "<td>" + str(data) + "</td>"
-            final_string += "</tr>"
-
-        # print(head + final_string)
-
     except Exception as e:
         final_string += "Database Server Error Pl Try Later"
         print(e)
     finally:
-        # mydb.close()
-        pass
+        mydb.close()
+        
 
-    # return render_template('account.html', data=final_string)
+    for r in result:
+        print(r)
+        final_string += "<tr>"
+        final_string_data = ""
+        for index, data in enumerate(r):
+            if index == 0:
+                final_string_data += "<td>" + "<a href=' " + str(data) + " '> " + str(data) + "</td></a>" 
+                    
+            elif index == 3:
+                final_string_data += "<td>" + "<a href='mailto: " + str(data) + " '> " + str(data) + "</td></a>"  
+                    
+            elif index == 4:
+                final_string_data += "<td>" + "<a href=' " + 'https://www.ip2location.com/demo/' + str(data) + " ' target='blank'> " + str(data) + "</td></a>"  
+    
+            else:
+                final_string_data += "<td>" + str(data) + "</td>"  
+        final_string_data += "</tr>"
+        if sort == 1:
+            final_string = final_string_data + final_string
+        else:
+            final_string = final_string + final_string_data 
+
     return head + body + final_string + end
 
 
